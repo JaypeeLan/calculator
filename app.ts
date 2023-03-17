@@ -1,25 +1,32 @@
-const calculatorDisplay = document.querySelector("h1");
-const inputBtns = document.querySelectorAll("button");
-const clearBtn = document.getElementById("clear-btn");
+const calculatorDisplay = document.querySelector("h1") as HTMLElement;
+const inputBtns = document.querySelectorAll("button")!;
+const clearBtn = document.getElementById("clear-btn") as HTMLButtonElement;
 
-let firstValue = 0;
-let operatorValue = "";
-let awaitingNextValue = false;
+let firstValue: number = 0;
+let operatorValue: string = "";
+let awaitingNextValue: boolean = false;
 
+interface Calculate {
+  [key: string]: Function;
+}
 // Calculate first and second values depending on operator
-const calculate = {
-  "/": (firstNumber, secondNumber) => firstNumber / secondNumber,
+const calculate: Calculate = {
+  "/": (firstNumber: number, secondNumber: number) =>
+    firstNumber / secondNumber,
 
-  "*": (firstNumber, secondNumber) => firstNumber * secondNumber,
+  "*": (firstNumber: number, secondNumber: number) =>
+    firstNumber * secondNumber,
 
-  "+": (firstNumber, secondNumber) => firstNumber + secondNumber,
+  "+": (firstNumber: number, secondNumber: number) =>
+    firstNumber + secondNumber,
 
-  "-": (firstNumber, secondNumber) => firstNumber - secondNumber,
+  "-": (firstNumber: number, secondNumber: number) =>
+    firstNumber - secondNumber,
 
-  "=": (firstNumber, secondNumber) => secondNumber,
+  "=": (firstNumber: number, secondNumber: number) => secondNumber,
 };
 
-function useOperator(operator) {
+function useOperator(operator: string) {
   const currentValue = Number(calculatorDisplay.textContent);
 
   // Prevent multiple operators
@@ -41,7 +48,7 @@ function useOperator(operator) {
   operatorValue = operator;
 }
 
-function sendNumberValue(number) {
+function sendNumberValue(number: string) {
   // replace current display value if first value is entered
   if (awaitingNextValue) {
     calculatorDisplay.textContent = number;
@@ -58,7 +65,7 @@ function addDecimal() {
   // if operator is added already after initial value
   if (awaitingNextValue) return;
 
-  if (!calculatorDisplay.textContent.includes(".")) {
+  if ((!calculatorDisplay.textContent as any).includes(".")) {
     calculatorDisplay.textContent = `${calculatorDisplay.textContent}.`;
   }
 }
@@ -71,7 +78,6 @@ function resetAll() {
   calculatorDisplay.textContent = "0";
 }
 
-// ===============/
 // ======================== //
 inputBtns.forEach((inputButton) => {
   if (inputButton.classList.length === 0) {
